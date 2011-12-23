@@ -2,10 +2,22 @@
 
 class AsientosController extends Controller
 {
+    
+    
+    
 	public function actionIndex()
 	{
 		$this->render('index');
 	}
+    
+    
+    public function actionCabecera(){
+            $comprobante = new Tipocomprobantecontable;
+            
+            $comprobante->idempresa = 3;
+            
+            $result = $comprobante->search();
+    }
 
 	// Uncomment the following methods and override them if needed
 	/*
