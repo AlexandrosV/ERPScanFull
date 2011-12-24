@@ -5,11 +5,11 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List Maestroasiento', 'url'=>array('index')),
-	array('label'=>'Create Maestroasiento', 'url'=>array('create')),
-	array('label'=>'Update Maestroasiento', 'url'=>array('update', 'id'=>$model->idasiento)),
-	array('label'=>'Delete Maestroasiento', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->idasiento),'confirm'=>'Are you sure you want to delete this item?')),
-	array('label'=>'Manage Maestroasiento', 'url'=>array('admin')),
+	array('label'=>'Listar Asiento', 'url'=>array('index')),
+	array('label'=>'Crear Asiento', 'url'=>array('create')),
+	array('label'=>'Actualizar Asiento', 'url'=>array('update', 'id'=>$model->idasiento)),
+	//array('label'=>'Delete Maestroasiento', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->idasiento),'confirm'=>'Are you sure you want to delete this item?')),
+	array('label'=>'Asientos', 'url'=>array('admin')),
 );
 ?>
 
