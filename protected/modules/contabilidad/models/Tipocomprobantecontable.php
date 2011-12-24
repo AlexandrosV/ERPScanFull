@@ -1,22 +1,19 @@
 <?php
 
 /**
- * This is the model class for table "detalleasientos".
+ * This is the model class for table "tipocomprobantecontable".
  *
- * The followings are the available columns in table 'detalleasientos':
- * @property integer $id
- * @property integer $idasiento
- * @property integer $cuentacontable
- * @property string $valordebe
- * @property string $valorhaber
- * @property string $subdetalle
+ * The followings are the available columns in table 'tipocomprobantecontable':
+ * @property integer $idcomprobantecontable
+ * @property string $descripcion
+ * @property string $numeracion
  * @property integer $idempresa
  */
-class Detalleasientos extends CActiveRecord
+class Tipocomprobantecontable extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
-	 * @return Detalleasientos the static model class
+	 * @return Tipocomprobantecontable the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -28,7 +25,7 @@ class Detalleasientos extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'detalleasientos';
+		return 'tipocomprobantecontable';
 	}
 
 	/**
@@ -39,13 +36,13 @@ class Detalleasientos extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('idasiento, cuentacontable, idempresa', 'required'),
-			array('idasiento, cuentacontable, idempresa', 'numerical', 'integerOnly'=>true),
-			array('valordebe, valorhaber', 'length', 'max'=>10),
-			array('subdetalle', 'length', 'max'=>120),
+			array('descripcion, numeracion, idempresa', 'required'),
+			array('idempresa', 'numerical', 'integerOnly'=>true),
+			array('descripcion', 'length', 'max'=>60),
+			array('numeracion', 'length', 'max'=>10),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, idasiento, cuentacontable, valordebe, valorhaber, subdetalle, idempresa', 'safe', 'on'=>'search'),
+			array('idcomprobantecontable, descripcion, numeracion, idempresa', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -66,12 +63,9 @@ class Detalleasientos extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'idasiento' => 'Idasiento',
-			'cuentacontable' => 'Cuentacontable',
-			'valordebe' => 'Valordebe',
-			'valorhaber' => 'Valorhaber',
-			'subdetalle' => 'Subdetalle',
+			'idcomprobantecontable' => 'Idcomprobantecontable',
+			'descripcion' => 'Descripcion',
+			'numeracion' => 'Numeracion',
 			'idempresa' => 'Idempresa',
 		);
 	}
@@ -87,12 +81,9 @@ class Detalleasientos extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('idasiento',$this->idasiento);
-		$criteria->compare('cuentacontable',$this->cuentacontable);
-		$criteria->compare('valordebe',$this->valordebe,true);
-		$criteria->compare('valorhaber',$this->valorhaber,true);
-		$criteria->compare('subdetalle',$this->subdetalle,true);
+//		$criteria->compare('idcomprobantecontable',$this->idcomprobantecontable);
+//		$criteria->compare('descripcion',$this->descripcion,true);
+//		$criteria->compare('numeracion',$this->numeracion,true);
 		$criteria->compare('idempresa',$this->idempresa);
 
 		return new CActiveDataProvider($this, array(
