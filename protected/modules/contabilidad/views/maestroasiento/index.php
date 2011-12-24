@@ -4,12 +4,12 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'Create Maestroasiento', 'url'=>array('create')),
-	array('label'=>'Manage Maestroasiento', 'url'=>array('admin')),
+	array('label'=>'Crear Asiento', 'url'=>array('create')),
+	array('label'=>'Administrar Asientos', 'url'=>array('admin')),
 );
 ?>
 
-<h1>Maestroasientos</h1>
+<h1>Asientos Contables</h1>
 
 <?php $this->widget('zii.widgets.CListView', array(
 	'dataProvider'=>$dataProvider,
