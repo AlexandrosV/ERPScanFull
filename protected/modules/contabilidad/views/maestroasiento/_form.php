@@ -3,7 +3,9 @@
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'maestroasiento-form',
 	'enableAjaxValidation'=>false,
-)); ?>
+)); 
+
+?>
 
 	<p class="note">Fields with <span class="required">*</span> are required.</p>
 
@@ -123,6 +125,10 @@
 		<?php echo $form->error($model,'idempresa'); ?>
 	</div>
 
+        <div class="row">
+		
+	</div>
+        
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
 	</div>

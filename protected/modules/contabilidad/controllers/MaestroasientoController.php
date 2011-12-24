@@ -63,6 +63,20 @@ class MaestroasientoController extends Controller
 	{
 		$model=new Maestroasiento;
 
+                $comprobante = new Tipocomprobantecontable;
+                
+                $comprobante->idempresa = 3;
+                /**
+                 * @var CActiveDataProvider
+                 */
+                $listaComprobante = $comprobante->search();
+                $comprobanteData =array();
+                foreach($listaComprobante->getData() as $comp)
+                {
+                  $comprobanteData[$comp->idcomprobantecontable]= $comp->descripcion;
+                }
+                
+               
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
@@ -75,6 +89,7 @@ class MaestroasientoController extends Controller
 
 		$this->render('create',array(
 			'model'=>$model,
+                        'comprobanteData'=> $comprobanteData,
 		));
 	}
 
