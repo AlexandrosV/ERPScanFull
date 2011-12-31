@@ -227,3 +227,20 @@ div.search-form
 {
 	background: #80CFFF;
 }
+
+/*para test*/
+table{
+    width: 100%;
+    overflow: hidden;
+}
+td{
+    border:black 1px solid;
+}
+
+
+.selectableRow{
+    cursor: pointer;    
+}
+.selectableRow:hover{
+    font-weight: bold!important;
+}

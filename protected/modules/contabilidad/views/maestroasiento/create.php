@@ -5,13 +5,15 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List Maestroasiento', 'url'=>array('index')),
-	array('label'=>'Manage Maestroasiento', 'url'=>array('admin')),
+	array('label'=>'Ver Asientos', 'url'=>array('index')),
+	//array('label'=>'Manage Maestroasiento', 'url'=>array('admin')),
 );
 
 
 ?>
 
-<h1>Create Maestroasiento</h1>
+<h1>Crear Asiento</h1>
 
-<?php echo $this->renderPartial('_form', array('model'=>$model,'comprobanteData'=>$comprobanteData)); ?>
+<?php echo $this->renderPartial('_form', array('model'=>$model,'comprobanteData'=>$comprobanteData,
+    'documentoData'=>$documentoData,
+    'cuentasData'=>$cuentasData)); ?>

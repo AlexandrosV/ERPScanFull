@@ -11,7 +11,17 @@ $this->menu=array(
 
 <h1>Asientos Contables</h1>
 
-<?php $this->widget('zii.widgets.CListView', array(
-	'dataProvider'=>$dataProvider,
-	'itemView'=>'_view',
-)); ?>
+<table>
+    <tr>
+        <td>N&uacute;mero de asiento</td>
+        <td>Fecha</td>
+        <td>Referencia</td>            	
+    </tr>    
+
+
+    <?php $this->widget('zii.widgets.CListView', array(
+        'dataProvider'=>$dataProvider,
+        'itemView'=>'_view',
+    )); ?>
+
+</table>
