@@ -13,6 +13,8 @@ $this->menu=array(
 );
 ?>
 
-<h1>Update Maestroasiento <?php echo $model->idasiento; ?></h1>
+<h1>Ingreso de detalles del asiento <?php echo $model->numeroasiento; ?></h1>
 
-<?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
+<?php echo $this->renderPartial('_form', array('model'=>$model,'comprobanteData'=>$comprobanteData,
+                    'documentoData'=>$documentoData,
+                    'cuentasData'=>$cuentasData)); ?>

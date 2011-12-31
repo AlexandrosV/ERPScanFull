@@ -42,7 +42,7 @@ class Detalleasientos extends CActiveRecord
 			array('idasiento, cuentacontable, idempresa', 'required'),
 			array('idasiento, cuentacontable, idempresa', 'numerical', 'integerOnly'=>true),
 			array('valordebe, valorhaber', 'length', 'max'=>10),
-			array('subdetalle', 'length', 'max'=>120),
+			//array('subdetalle', 'length'=>5),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, idasiento, cuentacontable, valordebe, valorhaber, subdetalle, idempresa', 'safe', 'on'=>'search'),
@@ -68,9 +68,9 @@ class Detalleasientos extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'idasiento' => 'Idasiento',
-			'cuentacontable' => 'Cuentacontable',
-			'valordebe' => 'Valordebe',
-			'valorhaber' => 'Valorhaber',
+			'cuentacontable' => 'Cuenta Contable',
+			'valordebe' => 'Debe',
+			'valorhaber' => 'Haber',
 			'subdetalle' => 'Subdetalle',
 			'idempresa' => 'Idempresa',
 		);
