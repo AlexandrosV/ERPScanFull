@@ -73,6 +73,30 @@ class PagochequesController extends Controller
         {
             $comprobanteData [$comp->idcomprobantecontable]=$comp->descripcion;
         }
+        
+        $documentoData = array();
+        
+        $documentoData[''] = 'Seleccione';
+        if(isset($_POST['Maestroasiento']['idcomprobantecontable'])&&$_POST['Maestroasiento']['idcomprobantecontable']!='')
+        {
+            $documento = new Tipodocumentocontable();
+            $documento->tipocomprobante = $_POST['Maestroasiento']['idcomprobantecontable'];
+            $listaDocumento = $documento->search();
+            foreach($listaDocumento->getData() as $doc)
+            {
+                $documentoData[$doc->iddocumento]= $doc->descripcion;
+            }
+            
+        }
+        
+        $cuentasArray = array();
+        $cuentas = new Cuentasbancarias;
+        $cuentas->idempresa = 3;
+        $listaCuentas = $cuentas->search();
+        foreach ($listaCuentas->getData()as $cu)
+        {
+            $cuentasArray[$cu->idcuentabancaria]= $cu->descripcion;
+        }
 
 		if(isset($_POST['Maestroasiento']))
 		{
@@ -80,15 +104,31 @@ class PagochequesController extends Controller
             
             $model->idempresa = 3;
             $model ->fechamodificacion = date('Y-m-d');
-            $estado->estado = 1;
+            $model->estado = 1;
+            
             
 			if($model->save())
+            {
+                $movimientosBancarios = new Movimientosbancarios();
+                $movimientosBancarios->beneficiario = $model->beneficiario;
+                $movimientosBancarios->detalle = $model->detalle;
+                $movimientosBancarios->fechacreacion = $model->fechacreacion;
+                $movimientosBancarios->idcuentabancaria = $model->idcuentabancaria;
+                $movimientosBancarios->iddocumento = $model->iddocumento;
+                $movimientosBancarios->idempresa = $model->idempresa;
+                $movimientosBancarios->numerodocumento = $model->numerodocumento;
+                $movimientosBancarios->tipo = $_POST['tipopago'];
+                $movimientosBancarios->save();
+               
 				$this->redirect(array('detallecheques/create','id'=>$model->idasiento));
+            }
 		}
 
 		$this->render('create',array(
 			'model'=>$model,
             'comprobanteData'=>$comprobanteData,
+            'documentoData'=>$documentoData,
+            'cuentasData'=>$cuentasArray,
 		));
 	}
 
