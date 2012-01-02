@@ -31,6 +31,8 @@ class Maestroasiento extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * @return Maestroasiento the static model class
 	 */
+        public $nuevoNumeroAsiento;
+    
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
@@ -144,4 +146,16 @@ class Maestroasiento extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+
+        
+        public function getNuevoNumeroAsiento()
+        {
+            $maxNumber = Yii::app()->db->createCommand()
+              ->select('max(numeroasiento) as max')
+              ->from('maestroasiento')
+              ->queryScalar();
+                      
+            return $maxNumber + 1;
+        }
+        
 }
