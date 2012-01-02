@@ -62,6 +62,10 @@ class MaestroasientoController extends Controller
 	public function actionCreate()
 	{
 		$model=new Maestroasiento;
+                
+                //obtener el numero de asiento
+                $parametros = new Parametrocontabilidad;
+                
 
                 /*Obtener los comprobantes*/
                 $comprobante = new Tipocomprobantecontable;
@@ -69,33 +73,48 @@ class MaestroasientoController extends Controller
                 $comprobante->idempresa = 3;                
                 $listaComprobante = $comprobante->search();
                 $comprobanteData =array();
+                $comprobanteData[''] = 'Seleccione';
                 foreach($listaComprobante->getData() as $comp)
                 {
                   $comprobanteData[$comp->idcomprobantecontable]= $comp->descripcion;
                 }
                 
-                /*Obtener los documentos*/
-                $documento = new Tipodocumentocontable();
-                $documento->tipocomprobante = 1;
-                $listaDocumento = $documento->search();
-                
+                //inicializar los array
                 $documentoData = array();
-                foreach($listaDocumento->getData() as $doc)
-                {
-                    $documentoData[$doc->iddocumento]= $doc->descripcion;
-                }
-                
-                /*Obtener cuentas bancarias*/
-                $cuentas = new Cuentasbancarias;
-                $cuentas->idempresa = 3;
-                $listaCuentas = $cuentas->search();
-                
                 $cuentasArray = array();
-                foreach($listaCuentas->getData() as $cu)
-                {
-                    $cuentasArray[$cu->idcuentabancaria] = $cu->descripcion;
-                }
                 
+                
+                $documentoData[''] = 'Seleccione';
+                
+                //validar el tipo de comprobante para obtene los documentos
+                
+                
+                if(isset($_POST['Maestroasiento']['idcomprobantecontable'])&& $_POST['Maestroasiento']['idcomprobantecontable']!= '')
+                {
+                    
+                    /*Obtener los documentos*/
+                    $documento = new Tipodocumentocontable();
+                    $documento->tipocomprobante = $_POST['Maestroasiento']['idcomprobantecontable'];
+                    $listaDocumento = $documento->search();
+
+                    
+                    foreach($listaDocumento->getData() as $doc)
+                    {
+                        $documentoData[$doc->iddocumento]= $doc->descripcion;
+                    }
+                
+                    /*Obtener cuentas bancarias*/
+                    $cuentas = new Cuentasbancarias;
+                    $cuentas->idempresa = 3;
+                    $listaCuentas = $cuentas->search();
+
+                    
+                    foreach($listaCuentas->getData() as $cu)
+                    {
+                        $cuentasArray[$cu->idcuentabancaria] = $cu->descripcion;
+                    }
+                
+                }
                 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -104,24 +123,24 @@ class MaestroasientoController extends Controller
 		{
 			$model->attributes=$_POST['Maestroasiento'];
             
-            //cambiar la empresa solo por TEST
-            $model->idempresa = 3;
-            //cuando es asiento la cedula va vacia
-            $model->cedularuc = '';
-            $model->fechamodificacion = date('Y-m-d');
-            $model->estado = 1;
-            ////////////////////////////////////////
-            
-			if($model->save())
-				$this->redirect(array('detalleasientos/create','id'=>$model->idasiento));
-		}
+                        //cambiar la empresa solo por TEST
+                        $model->idempresa = 3;
+                        //cuando es asiento la cedula va vacia
+                        $model->cedularuc = '';
+                        $model->fechamodificacion = date('Y-m-d');
+                        $model->estado = 1;
+                        ////////////////////////////////////////
 
-		$this->render('create',array(
-			'model'=>$model,
-            'comprobanteData'=> $comprobanteData,
-            'documentoData'=>$documentoData,
-            'cuentasData'=>$cuentasArray,
-		));
+                            if($model->save())
+                                            $this->redirect(array('detalleasientos/create','id'=>$model->idasiento));
+                            }
+
+                            $this->render('create',array(
+                                    'model'=>$model,
+                                    'comprobanteData'=> $comprobanteData,
+                                    'documentoData'=>$documentoData,
+                                    'cuentasData'=>$cuentasArray,
+                            ));
 	}
 
 	/**

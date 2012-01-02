@@ -37,7 +37,9 @@ or <b>=</b>) la inicio de cada criterio.
 )); ?>
 </div><!-- search-form -->
 
-<?php $this->widget('zii.widgets.grid.CGridView', array(
+<?php 
+$model->cedularuc='';
+$this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'maestroasiento-grid',
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
