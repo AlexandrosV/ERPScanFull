@@ -10,13 +10,14 @@
 )); 
 
 ?>
-    <table>
+    <table>         
         <tr>
             <td colspan="2">
-                <?php echo $form->labelEx($model,'numeroasiento',array('label'=>"Numero de Asiento")); ?>                 
+                <?php echo $form->labelEx($model,'numeroasiento',array('label'=>"Numero de Asiento",)); ?>                 
             </td>
             <td  colspan="2">
-                <?php echo $form->textField($model,'numeroasiento',array('size'=>10,'maxlength'=>10)); ?>
+                <?php echo $form->textField($model,'numeroasiento',array('size'=>10,'maxlength'=>10,'value'=>$model->getNuevoNumeroAsiento(),
+                    'readonly'=>'readonly')); ?>
 		<?php echo $form->error($model,'numeroasiento'); ?>
             </td>
             </tr>
