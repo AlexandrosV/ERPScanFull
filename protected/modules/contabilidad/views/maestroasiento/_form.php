@@ -1,5 +1,9 @@
 <div class="form">
 
+    <form name="change" method="POST">
+        
+    </form>  
+    
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'maestroasiento-form',
 	'enableAjaxValidation'=>false,
@@ -22,7 +26,8 @@
             </td>
         
             <td>
-                <?php echo $form->dropDownList($model,'idcomprobantecontable', $comprobanteData)?>
+                <?php echo $form->dropDownList($model,'idcomprobantecontable', 
+                        $comprobanteData,array('onchange'=>"document.forms['maestroasiento-form'].submit()"))?>
                 <?php echo $form->error($model,'idcomprobantecontable'); ?>
             </td>
             <td>
