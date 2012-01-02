@@ -62,11 +62,7 @@ class MaestroasientoController extends Controller
 	public function actionCreate()
 	{
 		$model=new Maestroasiento;
-                
-                //obtener el numero de asiento
-                $parametros = new Parametrocontabilidad;
-                
-
+                              
                 /*Obtener los comprobantes*/
                 $comprobante = new Tipocomprobantecontable;
                 
