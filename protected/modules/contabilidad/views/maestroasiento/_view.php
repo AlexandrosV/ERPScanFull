@@ -1,11 +1,22 @@
-<div class="view">
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('idasiento')); ?>:</b>
+<tr class="selectableRow">
+    <td><?php echo CHtml::encode($data->numeroasiento); ?></td>
+    <td><?php echo CHtml::encode($data->fechacreacion); ?></td>
+    <td><?php echo CHtml::encode($data->referenciaadicional); ?></td>
+</tr>
+	<?php /*
+     * 
+     * 
+     * 
+     * 
+     
+    
+    <b><?php echo CHtml::encode($data->getAttributeLabel('idasiento')); ?>:</b>
 	<?php echo CHtml::link(CHtml::encode($data->idasiento), array('view', 'id'=>$data->idasiento)); ?>
 	<br />
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('numeroasiento')); ?>:</b>
-	<?php echo CHtml::encode($data->numeroasiento); ?>
+	
 	<br />
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('periodocontable')); ?>:</b>
@@ -21,14 +32,13 @@
 	<br />
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('fechacreacion')); ?>:</b>
-	<?php echo CHtml::encode($data->fechacreacion); ?>
+	
 	<br />
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('fechamodificacion')); ?>:</b>
 	<?php echo CHtml::encode($data->fechamodificacion); ?>
 	<br />
-
-	<?php /*
+     
 	<b><?php echo CHtml::encode($data->getAttributeLabel('detalle')); ?>:</b>
 	<?php echo CHtml::encode($data->detalle); ?>
 	<br />
@@ -83,4 +93,3 @@
 
 	*/ ?>
 
-</div>

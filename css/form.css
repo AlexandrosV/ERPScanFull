@@ -36,6 +36,10 @@
 
 div.form
 {
+    border:blue 1px solid;
+    overflow: auto;
+    width: 730px;
+    
 }
 
 div.form input,

@@ -63,18 +63,64 @@ class MaestroasientoController extends Controller
 	{
 		$model=new Maestroasiento;
 
+                /*Obtener los comprobantes*/
+                $comprobante = new Tipocomprobantecontable;
+                
+                $comprobante->idempresa = 3;                
+                $listaComprobante = $comprobante->search();
+                $comprobanteData =array();
+                foreach($listaComprobante->getData() as $comp)
+                {
+                  $comprobanteData[$comp->idcomprobantecontable]= $comp->descripcion;
+                }
+                
+                /*Obtener los documentos*/
+                $documento = new Tipodocumentocontable();
+                $documento->tipocomprobante = 1;
+                $listaDocumento = $documento->search();
+                
+                $documentoData = array();
+                foreach($listaDocumento->getData() as $doc)
+                {
+                    $documentoData[$doc->iddocumento]= $doc->descripcion;
+                }
+                
+                /*Obtener cuentas bancarias*/
+                $cuentas = new Cuentasbancarias;
+                $cuentas->idempresa = 3;
+                $listaCuentas = $cuentas->search();
+                
+                $cuentasArray = array();
+                foreach($listaCuentas->getData() as $cu)
+                {
+                    $cuentasArray[$cu->idcuentabancaria] = $cu->descripcion;
+                }
+                
+                
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
 		if(isset($_POST['Maestroasiento']))
 		{
 			$model->attributes=$_POST['Maestroasiento'];
+            
+            //cambiar la empresa solo por TEST
+            $model->idempresa = 3;
+            //cuando es asiento la cedula va vacia
+            $model->cedularuc = '';
+            $model->fechamodificacion = date('Y-m-d');
+            $model->estado = 1;
+            ////////////////////////////////////////
+            
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->idasiento));
+				$this->redirect(array('detalleasientos/create','id'=>$model->idasiento));
 		}
 
 		$this->render('create',array(
 			'model'=>$model,
+            'comprobanteData'=> $comprobanteData,
+            'documentoData'=>$documentoData,
+            'cuentasData'=>$cuentasArray,
 		));
 	}
 
@@ -86,19 +132,66 @@ class MaestroasientoController extends Controller
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
+       
+        
+        
+        /*Obtener los comprobantes*/
+                $comprobante = new Tipocomprobantecontable;
+                
+                $comprobante->idempresa = 3;                
+                $listaComprobante = $comprobante->search();
+                $comprobanteData =array();
+                foreach($listaComprobante->getData() as $comp)
+                {
+                  $comprobanteData[$comp->idcomprobantecontable]= $comp->descripcion;
+                }
+                
+                /*Obtener los documentos*/
+                $documento = new Tipodocumentocontable();
+                $documento->tipocomprobante = 1;
+                $listaDocumento = $documento->search();
+                
+                $documentoData = array();
+                foreach($listaDocumento->getData() as $doc)
+                {
+                    $documentoData[$doc->iddocumento]= $doc->descripcion;
+                }
+                
+                /*Obtener cuentas bancarias*/
+                $cuentas = new Cuentasbancarias;
+                $cuentas->idempresa = 3;
+                $listaCuentas = $cuentas->search();
+                
+                $cuentasArray = array();
+                foreach($listaCuentas->getData() as $cu)
+                {
+                    $cuentasArray[$cu->idcuentabancaria] = $cu->descripcion;
+                }
 
 		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+		$this->performAjaxValidation($model);
 
 		if(isset($_POST['Maestroasiento']))
 		{
 			$model->attributes=$_POST['Maestroasiento'];
+            
+            //cambiar la empresa solo por TEST
+            $model->idempresa = 3;
+            $model->cedularuc = '1718642281';
+            $model->fechamodificacion = date('Y-m-d');
+            $model->estado = 1;
+            ////////////////////////////////////////
+            
+            
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->idasiento));
+				$this->redirect(array('detalleasientos/create','id'=>$model->idasiento));
 		}
 
-		$this->render('update',array(
+		$this->renderPartial('update',array(
 			'model'=>$model,
+            'comprobanteData'=> $comprobanteData,
+            'documentoData'=>$documentoData,
+            'cuentasData'=>$cuentasArray,
 		));
 	}
 
@@ -127,10 +220,13 @@ class MaestroasientoController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('Maestroasiento');
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-		));
+        
+        $this->redirect(array('admin'));
+        
+//		$dataProvider=new CActiveDataProvider('Maestroasiento');
+//		$this->render('index',array(
+//			'dataProvider'=>$dataProvider,
+//		));
 	}
 
 	/**

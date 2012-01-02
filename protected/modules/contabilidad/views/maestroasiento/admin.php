@@ -5,8 +5,8 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List Maestroasiento', 'url'=>array('index')),
-	array('label'=>'Create Maestroasiento', 'url'=>array('create')),
+	array('label'=>'Listado de Asientos', 'url'=>array('index')),
+	array('label'=>'Crear Asiento', 'url'=>array('create')),
 );
 
 Yii::app()->clientScript->registerScript('search', "
@@ -23,11 +23,11 @@ $('.search-form form').submit(function(){
 ");
 ?>
 
-<h1>Manage Maestroasientos</h1>
+<h1>Asientos contables registrados</h1>
 
 <p>
-You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
-or <b>=</b>) at the beginning of each of your search values to specify how the comparison should be done.
+Opcionalmente puede buscar con los signos (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
+or <b>=</b>) la inicio de cada criterio.
 </p>
 
 <?php echo CHtml::link('Advanced Search','#',array('class'=>'search-button')); ?>
@@ -41,13 +41,10 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 	'id'=>'maestroasiento-grid',
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
-	'columns'=>array(
-		'idasiento',
-		'numeroasiento',
-		'periodocontable',
-		'cedularuc',
-		'beneficiario',
+	'columns'=>array(		
+		'numeroasiento',		
 		'fechacreacion',
+        'referenciaadicional',
 		/*
 		'fechamodificacion',
 		'detalle',
@@ -60,12 +57,21 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 		'mayorizado',
 		'impreso',
 		'valormovimiento',
-		'referenciaadicional',
+		
 		'asientocuadrado',
 		'idempresa',
 		*/
 		array(
 			'class'=>'CButtonColumn',
+            'template' => '{update}',                         
+             'updateButtonUrl'=>'Yii::app()->createUrl("/maestroasiento/update",  array())',
 		),
+       
 	),
-)); ?>
+)); 
+
+
+
+
+
+?>
