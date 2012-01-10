@@ -16,4 +16,6 @@ $this->menu=array(
 
 <?php echo $this->renderPartial('_form', array('model'=>$model,'comprobanteData'=>$comprobanteData,
     'documentoData'=>$documentoData,
-    'cuentasData'=>$cuentasData)); ?>
+    'cuentasData'=>$cuentasData,
+    'numeroComp'=>$numeroComp,
+    'numeroDoc'=>$numeroDoc)); ?>

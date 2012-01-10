@@ -12,8 +12,9 @@
         <td colspan="2">
             <?php echo $form->labelEx($model,'numeroasiento',array('label'=>"Numero de Asiento")); ?>
         </td>
-        <td>
-            <?php echo $form->textField($model,'numeroasiento',array('size'=>10,'maxlength'=>10)); ?>
+        <td clospaan="2">
+            <?php echo $form->textField($model,'numeroasiento',array('size'=>10,'maxlength'=>10,'value'=>$model->getNuevoNumeroAsiento(),
+                'readonly'=>'readonly')); ?>
             <?php echo $form->error($model,'numeroasiento'); ?>
         </td>
     </tr>
@@ -123,9 +124,10 @@
 	<?php echo $form->errorSummary($model); ?>
     
 	<div class="row buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
+		<?php echo CHtml::submitButton($model->isNewRecord ? 'Crear' : 'Guardar'); ?>
 	</div>
 
 <?php $this->endWidget(); ?>
 
 </div><!-- form -->
+

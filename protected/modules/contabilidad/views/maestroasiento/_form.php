@@ -20,7 +20,7 @@
                     'readonly'=>'readonly')); ?>
 		<?php echo $form->error($model,'numeroasiento'); ?>
             </td>
-            </tr>
+        </tr>
         <tr>
             <td>
                 <?php echo $form->labelEx($model,'idcomprobantecontable',array('label'=>"Comprobante")); ?>				                           
@@ -35,7 +35,8 @@
                 <?php echo $form->labelEx($model,'numerocomprobante',array('label'=>"Numero de Comprobante")); ?>		
             </td>
             <td>
-                <?php echo $form->textField($model,'numerocomprobante',array('size'=>10,'maxlength'=>10)); ?>
+                <?php echo $form->textField($model,'numerocomprobante',array('size'=>10,'maxlength'=>10,'value'=>$numeroComp,
+                    'readonly'=>'readonly')); ?>
 		<?php echo $form->error($model,'numerocomprobante'); ?>
             </td>
         </tr>
@@ -44,15 +45,24 @@
                 <?php echo $form->labelEx($model,'iddocumento',array('label'=>"Documento")); ?>
             </td>
             <td>
-                <?php echo $form->dropDownList($model,'iddocumento', $documentoData); ?>
+                <?php echo $form->dropDownList($model,'iddocumento', $documentoData,array('onchange'=>"document.forms['maestroasiento-form'].submit()")); ?>
                 <?php echo $form->error($model,'iddocumento'); ?>
             </td>
             
             <td>
-                <?php echo $form->labelEx($model,'numerodocumento',array('label'=>"Numero de Documento")); ?>
+                <?php 
+               
+               
+                echo $form->labelEx($model,'numerodocumento',array('label'=>"Numero de Documento")); ?>
             </td>
             <td>
-                <?php echo $form->textField($model,'numerodocumento',array('size'=>10,'maxlength'=>10)); ?>
+                <?php
+                 $options = array('size'=>10,'maxlength'=>10,);
+                 if(!is_null($numeroDoc)){
+                    $options['value']= $numeroDoc;
+                    $options['readonly']= 'readonly';
+                }
+                echo $form->textField($model,'numerodocumento',$options); ?>
 		<?php echo $form->error($model,'numerodocumento'); ?>
             </td>
         </tr>

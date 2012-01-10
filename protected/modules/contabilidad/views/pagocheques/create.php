@@ -10,7 +10,7 @@ $this->menu=array(
 );
 ?>
 
-<h1>Crear Asiento</h1>
+<h1>Pago Cheques</h1>
 
 <?php echo $this->renderPartial('_form', array('model'=>$model,'comprobanteData'=>$comprobanteData,
         'documentoData'=>$documentoData,

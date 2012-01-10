@@ -9,7 +9,7 @@
 		var availableTags = [
 		<?php 
 		foreach($cuentasnec as $clientesArr){
-			echo '"' . $clientesArr. '", ';
+			echo '"' .trim($clientesArr). '", ';
 		}
 		?>
 		];
@@ -17,13 +17,14 @@
 			source: availableTags,
 			select: function( event, ui ) {
 					$('#Detalleasientos_cuentacontable option[label="'+ui.item.label+'"]').attr('selected', 'selected');
-                    alert(ui.item.label);
+                    //alert('->'+ui.item.label+'<-');
 				}
 		});
                
 	
 		
 	});
+    
 </script>    
     <table>
         <tr>
@@ -39,16 +40,23 @@
         <tr>
             <td>
                  <input type="text" name="autocompletado" id="autocompletado" value=""/>
-                
-                <?php echo $form->dropDownList($model,'cuentacontable', $cuentasnec)?>
+                 <select name="Detalleasientos[cuentacontable]" id="Detalleasientos_cuentacontable" style="display: none;">
+                     <?php 
+                        foreach($cuentasnec as $val => $clientesArr){?>
+                             <option value="<?php echo $val?>" label="<?php echo $clientesArr?>"><?php echo $clientesArr?></option>
+                      <?php }
+                      ?>
+                    
+                 </select>
+                <?php //echo $form->dropDownList($model,'cuentacontable', $cuentasnec,array())?>
                 <?php echo $form->error($model,'cuentacontable'); ?>
             </td>
             <td>
-                <?php echo $form->textField($model,'valordebe',array('size'=>10,'maxlength'=>7,'value'=>0)); ?>
+                <?php echo $form->textField($model,'valordebe',array('size'=>10,'maxlength'=>7,)); ?>
                 <?php echo $form->error($model,'valordebe'); ?>                
             </td>
             <td>
-                <?php echo $form->textField($model,'valorhaber',array('size'=>10,'maxlength'=>7,'value'=>0)); ?>
+                <?php echo $form->textField($model,'valorhaber',array('size'=>10,'maxlength'=>7,)); ?>
                 <?php echo $form->error($model,'valorhaber'); ?>                
             </td>
             <td>
@@ -63,7 +71,7 @@
     </table>
 	<?php echo $form->errorSummary($model); ?>
 
-<!--	<div class="row">
+<!--<div class="row">
 		<?php echo $form->labelEx($model,'idasiento'); ?>
 		<?php echo $form->textField($model,'idasiento'); ?>
 		<?php echo $form->error($model,'idasiento'); ?>
@@ -86,16 +94,16 @@
 <div id="listDetalleAsiento">
     
    <?php
-        $this->widget('zii.widgets.grid.CEditableGridView', array(
-                     'dataProvider'=>$model->search(),
-                     'showQuickBar'=>'true',
-                     'quickCreateAction'=>'create', // will be actionQuickCreate()
-                     'columns'=>array(
-                            
-                            array('header' => 'Detalle', 'name' => 'subdetalle', 'class' => 'CEditableColumn')
-                     )));
+//        $this->widget('zii.widgets.grid.CEditableGridView', array(
+//                     'dataProvider'=>$model->search(),
+//                     'showQuickBar'=>'true',
+//                     'quickCreateAction'=>'create', // will be actionQuickCreate()
+//                     'columns'=>array(
+//                            
+//                            array('header' => 'Detalle', 'name' => 'subdetalle', 'class' => 'CEditableColumn')
+//                     )));
    ?>
-<!--    <script type="text/javascript">
+    <script type="text/javascript">
         sendPage('null', '<?php echo Yii::app()->request->baseUrl; ?>/index.php/contabilidad/detalleasientos/index/idCabecera/<?php echo $idCabecera?>', 'listDetalleAsiento');
-    </script>-->
+    </script>
 </div>

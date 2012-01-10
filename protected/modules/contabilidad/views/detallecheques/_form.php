@@ -4,6 +4,27 @@
 	'id'=>'detalleasientos-form',
 	'enableAjaxValidation'=>false,
 )); ?>
+    <script>
+	$(function() {
+		var availableTags = [
+		<?php 
+		foreach($cuentasnec as $clientesArr){
+			echo '"' . $clientesArr. '", ';
+		}
+		?>
+		];
+		$( "#autocompletado" ).autocomplete({
+			source: availableTags,
+			select: function( event, ui ) {
+					$('#Detalleasientos_cuentacontable option[label="'+ui.item.label+'"]').attr('selected', 'selected');
+                    alert(ui.item.label);
+				}
+		});
+               
+	
+		
+	});
+</script> 
 
 	<p class="note">Fields with <span class="required">*</span> are required.</p>
 
@@ -52,3 +73,16 @@
 <?php $this->endWidget(); ?>
 
 </div><!-- form -->
+<div id="listDetalleCheques">
+    <?php
+        $this->widget('zii.widgets.grid.CEditableGridView', array(
+                     'dataProvider'=>$model->search(),
+                     'showQuickBar'=>'true',
+                     'quickCreateAction'=>'create', // will be actionQuickCreate()
+                     'columns'=>array(
+                            
+                            array('header' => 'Detalle', 'name' => 'subdetalle', 'class' => 'CEditableColumn')
+                     )));
+        
+    ?>    
+</div>

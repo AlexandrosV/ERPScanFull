@@ -66,16 +66,41 @@ class DetallechequesController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Detalleasientos']))
+		$idCabecera = $_REQUEST['id'];
+        $cabecera = new Maestroasiento;
+        $cabecera ->idasiento = $idCabecera;
+        $rowCabecera = $cabecera->search()->getData();
+       
+        if(isset($_POST['Detalleasientos']))
 		{
 			$model->attributes=$_POST['Detalleasientos'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+            
+                $model->idempresa = 3;
+                $model->idasiento = $idCabecera;
+                $model->subdetalle= $rowCabecera[0]->detalle;
+            
+			if($model->save()){
+//				$this->redirect(array('view','id'=>$model->id));
 		}
+    }
 
-		$this->render('create',array(
-			'model'=>$model,
-		));
+		 $planCuentas = new Plancuentasnec;
+                $planCuentas->tipocuenta=1;
+                $listaCuentas = $planCuentas->search();
+
+                $cuentas = array();
+                foreach($listaCuentas->getData() as $cu)
+                {
+                    $cuentas[$cu->idcuentanec] = $cu->nombrecuenta;
+                }
+
+                $this->render('create',array(
+                                'model'=>$model,
+                    'id'=>$idCabecera,
+                    'detalle'=>$rowCabecera[0]->detalle,
+                    'cuentasnec'=>$cuentas,
+                        ));
+		
 	}
 
 	/**

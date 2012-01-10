@@ -9,7 +9,7 @@ $this->menu=array(
 );
 ?>
 
-<h1>Maestroasientos</h1>
+<h1>Pagos Realizados</h1>
 
 <?php $this->widget('zii.widgets.CListView', array(
 	'dataProvider'=>$dataProvider,

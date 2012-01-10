@@ -16,5 +16,7 @@ $this->menu=array(
 <h1>Ingreso de detalles del asiento <?php echo $model->numeroasiento; ?></h1>
 
 <?php echo $this->renderPartial('_form', array('model'=>$model,'comprobanteData'=>$comprobanteData,
-                    'documentoData'=>$documentoData,
-                    'cuentasData'=>$cuentasData)); ?>
+    'documentoData'=>$documentoData,
+    'cuentasData'=>$cuentasData,
+    'numeroComp'=>$numeroComp,
+    'numeroDoc'=>$numeroDoc)); ?>

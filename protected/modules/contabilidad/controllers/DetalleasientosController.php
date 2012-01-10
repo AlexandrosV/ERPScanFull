@@ -78,37 +78,40 @@ class DetalleasientosController extends Controller
                                 $model->attributes=$_POST['Detalleasientos'];
 
                                 //TEST
-                                $model->idempresa = 3;
+                                $model->idempresa = 1;
                                 $model->idasiento = $idCabecera;
                                 $model->subdetalle= $rowCabecera[0]->detalle;
 
-                                            if($model->save()){
-
+                                if($_POST['Detalleasientos']['valordebe']!= '' || $_POST['Detalleasientos']['valorhaber']!='')
+                                {
+                                    $model->valordebe = $_POST['Detalleasientos']['valordebe']==''?0:$_POST['Detalleasientos']['valordebe'];
+                                    $model->valorhaber = $_POST['Detalleasientos']['valorhaber']==''?0:$_POST['Detalleasientos']['valorhaber'];
                                 }
-                    //				$this->redirect('create',array(
-                    //                    'model'=>$model,
-                    //                    'id'=>$idCabecera,
-                    //                    'detalle'=>$rowCabecera[0]->detalle,
-                    //                ));
+                                
+                                if($model->save()){
+
+                                }            
                         }
 
 
                 //Obetner todas las cuentas
                 $planCuentas = new Plancuentasnec;
-                $planCuentas->tipocuenta=1;
-                $listaCuentas = $planCuentas->search();
+                //$planCuentas->tipocuenta= TRUE;
+                $listaCuentas = $planCuentas->findAll();
 
                 $cuentas = array();
-                foreach($listaCuentas->getData() as $cu)
+                
+                
+                foreach($listaCuentas as $cu)
                 {
-                    $cuentas[$cu->idcuentanec] = $cu->nombrecuenta;
+                    $cuentas[$cu->idcuentanec] = trim($cu->cuentacontable)." (".trim($cu->nombrecuenta).")";
                 }
-
+               
                 $this->render('create',array(
                                 'model'=>$model,
-                    'id'=>$idCabecera,
-                    'detalle'=>$rowCabecera[0]->detalle,
-                    'cuentasnec'=>$cuentas,
+                                'id'=>$idCabecera,
+                                'detalle'=>$rowCabecera[0]->detalle,
+                                'cuentasnec'=>$cuentas,
                         ));
 	}
 
@@ -161,7 +164,8 @@ class DetalleasientosController extends Controller
 	 */
 	public function actionIndex()
 	{
-		
+		$model = new Detalleasientos;
+        
         $criteria=new CDbCriteria;
 
 		$criteria->compare('idasiento',$_REQUEST['idCabecera']);
@@ -170,8 +174,12 @@ class DetalleasientosController extends Controller
 			'criteria'=>$criteria,
 		));
         
+        $data = $model->getAsientoDetalle($_REQUEST['idCabecera']);
+        
+        
+        
 		$this->renderPartial('index',array(
-			'dataProvider'=>$dataProvider,
+			'dataProvider'=>$data,
 		));
 	}
 

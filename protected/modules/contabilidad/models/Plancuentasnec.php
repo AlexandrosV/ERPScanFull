@@ -90,12 +90,12 @@ class Plancuentasnec extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('idcuentanec',$this->idcuentanec);
-		$criteria->compare('cuentacontable',$this->cuentacontable,true);
-		$criteria->compare('nombrecuenta',$this->nombrecuenta,true);
+//		$criteria->compare('cuentacontable',$this->cuentacontable,true);
+//		$criteria->compare('nombrecuenta',$this->nombrecuenta,true);
 		$criteria->compare('tipocuenta',$this->tipocuenta,true);
-		$criteria->compare('nivelcuenta',$this->nivelcuenta,true);
-		$criteria->compare('idcuentaniff',$this->idcuentaniff);
-		$criteria->compare('idempresa',$this->idempresa);
+//		$criteria->compare('nivelcuenta',$this->nivelcuenta,true);
+//		$criteria->compare('idcuentaniff',$this->idcuentaniff);
+//		$criteria->compare('idempresa',$this->idempresa);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

@@ -16,7 +16,7 @@ $this->menu=array(
 <h1>View Maestroasiento #<?php echo $model->idasiento; ?></h1>
 
 <?php $this->widget('zii.widgets.CDetailView', array(
-	'data'=>$model,
+	'data'=>$model,   
 	'attributes'=>array(
 		'idasiento',
 		'numeroasiento',

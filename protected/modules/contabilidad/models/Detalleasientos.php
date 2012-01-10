@@ -14,6 +14,9 @@
  */
 class Detalleasientos extends CActiveRecord
 {
+    
+    public $nombrecuenta;
+    
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return Detalleasientos the static model class
@@ -39,7 +42,7 @@ class Detalleasientos extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('idasiento, cuentacontable, idempresa', 'required'),
+			array('idasiento, cuentacontable, idempresa,valordebe,valorhaber', 'required'),
 			array('idasiento, cuentacontable, idempresa', 'numerical', 'integerOnly'=>true),
 			array('valordebe, valorhaber', 'length', 'max'=>10),
 			//array('subdetalle', 'length'=>5),
@@ -94,9 +97,18 @@ class Detalleasientos extends CActiveRecord
 		$criteria->compare('valorhaber',$this->valorhaber,true);
 		$criteria->compare('subdetalle',$this->subdetalle,true);
 		$criteria->compare('idempresa',$this->idempresa);
+                
+                
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
 	}
+    
+    public function getAsientoDetalle($idMaestroAsiento)
+    {
+        $result = $this->findAllBySql("select pc.nombrecuenta,dt.* from plancuentasnec as pc, detalleasientos dt
+            where dt.idasiento = $idMaestroAsiento and dt.cuentacontable = pc.idcuentanec");
+        return $result;
+    }
 }

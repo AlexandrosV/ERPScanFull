@@ -50,7 +50,7 @@ class MaestroasientoController extends Controller
 	 */
 	public function actionView($id)
 	{
-		$this->render('view',array(
+		$this->renderPartial('view',array(
 			'model'=>$this->loadModel($id),
 		));
 	}
@@ -65,11 +65,11 @@ class MaestroasientoController extends Controller
                               
                 /*Obtener los comprobantes*/
                 $comprobante = new Tipocomprobantecontable;
-                
-                $comprobante->idempresa = 3;                
+                                
                 $listaComprobante = $comprobante->search();
                 $comprobanteData =array();
                 $comprobanteData[''] = 'Seleccione';
+                
                 foreach($listaComprobante->getData() as $comp)
                 {
                   $comprobanteData[$comp->idcomprobantecontable]= $comp->descripcion;
@@ -80,12 +80,16 @@ class MaestroasientoController extends Controller
                 $cuentasArray = array();
                 
                 
+                //numero de documento
+                $numeroDoc = NULL;
+                $numeroComp =NULL;
+                
                 $documentoData[''] = 'Seleccione';
                 
                 //validar el tipo de comprobante para obtene los documentos
                 
                 
-                if(isset($_POST['Maestroasiento']['idcomprobantecontable'])&& $_POST['Maestroasiento']['idcomprobantecontable']!= '')
+                if(isset($_POST['Maestroasiento']['idcomprobantecontable']))
                 {
                     
                     /*Obtener los documentos*/
@@ -99,43 +103,78 @@ class MaestroasientoController extends Controller
                         $documentoData[$doc->iddocumento]= $doc->descripcion;
                     }
                 
-                    /*Obtener cuentas bancarias*/
-                    $cuentas = new Cuentasbancarias;
-                    $cuentas->idempresa = 3;
-                    $listaCuentas = $cuentas->search();
-
+                    //
                     
-                    foreach($listaCuentas->getData() as $cu)
+                    if(isset($_POST['Maestroasiento']['iddocumento']) && ($_POST['Maestroasiento']['iddocumento'] == 1
+                            ||$_POST['Maestroasiento']['iddocumento'] == 4))
                     {
-                        $cuentasArray[$cu->idcuentabancaria] = $cu->descripcion;
-                    }
-                
-                }
-                
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+                        /*Obtener cuentas bancarias*/
+                        $cuentas = new Cuentasbancarias;
+                        //$cuentas->idempresa = 3;
+                        $listaCuentas = $cuentas->search();
 
-		if(isset($_POST['Maestroasiento']))
-		{
-			$model->attributes=$_POST['Maestroasiento'];
-            
-                        //cambiar la empresa solo por TEST
-                        $model->idempresa = 3;
-                        //cuando es asiento la cedula va vacia
-                        $model->cedularuc = '';
-                        $model->fechamodificacion = date('Y-m-d');
-                        $model->estado = 1;
-                        ////////////////////////////////////////
+
+                        foreach($listaCuentas->getData() as $cu)
+                        {
+                            $cuentasArray[$cu->idcuentabancaria] = $cu->descripcion;
+                        }
+                    }
+                    
+                    //obtener numero de comprobante
+                    $comprobante->idcomprobantecontable = $_POST['Maestroasiento']['idcomprobantecontable'];
+                    $rowComprobante = $comprobante->search()->getData();
+                    $numeroComp = $rowComprobante[0]->numeracion;
+                    
+                    if(isset($_POST['Maestroasiento']['iddocumento']))
+                    {
+                        //obtener el si automatico o no el numero de documento
+                        $documento->iddocumento = $_POST['Maestroasiento']['iddocumento'];
+                        $rowDocumento = $documento->search()->getData();
+                        if(count($rowDocumento)){
+                            if($rowDocumento[0]['numeraautomatico'])
+                            {
+                                $numeroDoc = $rowDocumento[0]['numerodocumento'];
+                            }
+                        }
+                    }
+                 }
+                
+                // Uncomment the following line if AJAX validation is needed
+                // $this->performAjaxValidation($model);
+
+                        if(isset($_POST['Maestroasiento']))
+                        {
+                            $model->attributes=$_POST['Maestroasiento'];
+
+                            //cambiar la empresa solo por TEST
+                            $model->idempresa = 1;
+                            //cuando es asiento la cedula va vacia
+                            $model->cedularuc = '';
+                            $model->fechamodificacion = date('Y-m-d');
+                            $model->estado = 1;
+                            ////////////////////////////////////////
 
                             if($model->save())
+                            {   
+                                            //actualizar el numero de comprobante
+                                            $comprobante->idcomprobantecontable =  $_POST['Maestroasiento']['idcomprobantecontable'];
+                                            $rowComprobante = $comprobante->search()->getData();
+                                            $comprobante->attributes = $rowComprobante[0];
+                                            $comprobante->numeracion =  $_POST['Maestroasiento']['numerocomprobante'] + 1;
+                                            $comprobante->save();
+                                            
+                                            
                                             $this->redirect(array('detalleasientos/create','id'=>$model->idasiento));
                             }
+                        }
 
                             $this->render('create',array(
                                     'model'=>$model,
                                     'comprobanteData'=> $comprobanteData,
                                     'documentoData'=>$documentoData,
                                     'cuentasData'=>$cuentasArray,
+                                    'numeroDoc'=>$numeroDoc,
+                                    'numeroComp'=>$numeroComp,
                             ));
 	}
 
@@ -146,43 +185,84 @@ class MaestroasientoController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
-		$model=$this->loadModel($id);
+            /**
+             *@var Maestroasiento
+             */
+            $model=$this->loadModel($id);
        
         
         
         /*Obtener los comprobantes*/
                 $comprobante = new Tipocomprobantecontable;
-                
-                $comprobante->idempresa = 3;                
+                                
                 $listaComprobante = $comprobante->search();
                 $comprobanteData =array();
+                $comprobanteData[''] = 'Seleccione';
+                
                 foreach($listaComprobante->getData() as $comp)
                 {
                   $comprobanteData[$comp->idcomprobantecontable]= $comp->descripcion;
                 }
                 
-                /*Obtener los documentos*/
-                $documento = new Tipodocumentocontable();
-                $documento->tipocomprobante = 1;
-                $listaDocumento = $documento->search();
-                
+                //inicializar los array
                 $documentoData = array();
-                foreach($listaDocumento->getData() as $doc)
-                {
-                    $documentoData[$doc->iddocumento]= $doc->descripcion;
-                }
-                
-                /*Obtener cuentas bancarias*/
-                $cuentas = new Cuentasbancarias;
-                $cuentas->idempresa = 3;
-                $listaCuentas = $cuentas->search();
-                
                 $cuentasArray = array();
-                foreach($listaCuentas->getData() as $cu)
-                {
-                    $cuentasArray[$cu->idcuentabancaria] = $cu->descripcion;
-                }
+                
+                
+                //numero de documento
+                $numeroDoc = NULL;
+                $numeroComp =NULL;
+                
+                $documentoData[''] = 'Seleccione';
+                
+                //validar el tipo de comprobante para obtene los documentos
+                
+                
+              
+                    
+                    /*Obtener los documentos*/
+                    $documento = new Tipodocumentocontable();
+                    $documento->tipocomprobante = $model->idcomprobantecontable;
+                    $listaDocumento = $documento->search();
 
+                    
+                    foreach($listaDocumento->getData() as $doc)
+                    {
+                        $documentoData[$doc->iddocumento]= $doc->descripcion;
+                    }
+                
+                    //
+                    
+                    
+                        /*Obtener cuentas bancarias*/
+                        $cuentas = new Cuentasbancarias;
+                        //$cuentas->idempresa = 3;
+                        $listaCuentas = $cuentas->search();
+
+
+                        foreach($listaCuentas->getData() as $cu)
+                        {
+                            $cuentasArray[$cu->idcuentabancaria] = $cu->descripcion;
+                        }
+                    
+                    
+                    //obtener numero de comprobante
+                    $comprobante->idcomprobantecontable = $model->idcomprobantecontable;
+                    $rowComprobante = $comprobante->search()->getData();
+                    $numeroComp = $rowComprobante[0]->numeracion;
+                    
+                    
+                        //obtener el si automatico o no el numero de documento
+                        $documento->iddocumento = $model->iddocumento;
+                        $rowDocumento = $documento->search()->getData();
+                        if(count($rowDocumento)){
+                            if($rowDocumento[0]['numeraautomatico'])
+                            {
+                                $numeroDoc = $rowDocumento[0]['numerodocumento'];
+                            }
+                        }
+                    
+                 
 		// Uncomment the following line if AJAX validation is needed
 		$this->performAjaxValidation($model);
 
@@ -192,7 +272,7 @@ class MaestroasientoController extends Controller
             
             //cambiar la empresa solo por TEST
             $model->idempresa = 3;
-            $model->cedularuc = '1718642281';
+            $model->cedularuc = '';
             $model->fechamodificacion = date('Y-m-d');
             $model->estado = 1;
             ////////////////////////////////////////
@@ -202,11 +282,13 @@ class MaestroasientoController extends Controller
 				$this->redirect(array('detalleasientos/create','id'=>$model->idasiento));
 		}
 
-		$this->renderPartial('update',array(
-			'model'=>$model,
+		$this->renderPartial('update',array(			            
+            'model'=>$model,
             'comprobanteData'=> $comprobanteData,
             'documentoData'=>$documentoData,
             'cuentasData'=>$cuentasArray,
+            'numeroDoc'=>$numeroDoc,
+            'numeroComp'=>$numeroComp,
 		));
 	}
 

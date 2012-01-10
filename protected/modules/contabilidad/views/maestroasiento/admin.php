@@ -39,6 +39,7 @@ or <b>=</b>) la inicio de cada criterio.
 
 <?php 
 $model->cedularuc='';
+
 $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'maestroasiento-grid',
 	'dataProvider'=>$model->search(),
@@ -66,7 +67,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
 		array(
 			'class'=>'CButtonColumn',
             'template' => '{update}',                         
-             'updateButtonUrl'=>'Yii::app()->createUrl("/maestroasiento/update",  array())',
+             'updateButtonUrl'=>'Yii::app()->createUrl("/contabilidad/detalleasientos/create",  array("id" =>  $data["idasiento"]))',
 		),
        
 	),

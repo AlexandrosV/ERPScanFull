@@ -54,7 +54,7 @@ class Maestroasiento extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('numeroasiento,  beneficiario, fechacreacion, iddocumento, numerodocumento, idcomprobantecontable, numerocomprobante, valormovimiento, idempresa , cedularuc', 'required'),
+			array('numeroasiento,  beneficiario, fechacreacion, iddocumento, numerodocumento, idcomprobantecontable, numerocomprobante, valormovimiento, idempresa', 'required'),
 			array('iddocumento, idcuentabancaria, idcomprobantecontable, idempresa', 'numerical', 'integerOnly'=>true),
 			array('numeroasiento, numerodocumento, numerocomprobante', 'length', 'max'=>10),
 			array('periodocontable', 'length', 'max'=>4),
